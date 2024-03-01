@@ -1,14 +1,23 @@
 // screens/HomeScreen.tsx
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import logoNoBg from '../assets/Logo-no-bg.png'; 
 import { Button } from 'react-native';
 
 const HomeScreen = ({navigation}) => {
 
-  return (
+  const menuItems = [
+    { title: "My Journey", navigateTo: "My Journey" },
+    { title: "Journal", navigateTo: "Journal" },
+    { title: "Contacts", navigateTo: "Contacts" },
+    { title: "Appointments", navigateTo: "Appointments" },
+    { title: "About Me", navigateTo: "About Me" },
+    { title: "Settings", navigateTo: "Settings" },
+    // Add more menu items here
+  ];
 
-    <View className='flex-auto justify-center items-center bg-blue-100'>
+  return (
+    <View className='flex-1 justify-center items-center bg-blue-100'>
       <View className='flex-row items-center'>
         <Image
           source={logoNoBg}
@@ -16,34 +25,14 @@ const HomeScreen = ({navigation}) => {
         />
         <Text className='text-2xl font-bold'>Welcome to HealthGuard!</Text>
       </View>
-      <Button
-        title="User"
-        onPress={() => navigation.navigate('User')}
-      />
-      <Button
-        title="My Journey"
-        onPress={() => navigation.navigate('My Journey')}
-      />
-      <Button
-        title="Journal"
-        onPress={() => navigation.navigate('Journal')}
-      />
-      <Button
-        title="Contacts"
-        onPress={() => navigation.navigate('Contacts')}
-      />
-        <Button
-        title="Appointments"
-        onPress={() => navigation.navigate('Appointments')}
-      />
-      <Button
-        title="About Me"
-        onPress={() => navigation.navigate('About Me')}
-      />
-      <Button
-        title="Settings"
-        onPress={() => navigation.navigate('Settings')}
-      />
+      {menuItems.map((item, index) => (
+        <TouchableOpacity 
+          key={index} 
+          onPress={() => navigation.navigate(item.navigateTo)}
+          className='py-3 px-6 bg-blue-500 rounded-full my-3 w-48 items-center'>
+          <Text className='text-white text-lg font-bold'>{item.title}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };

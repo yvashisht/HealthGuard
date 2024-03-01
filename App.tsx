@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //Screens
 import HomeScreen from './screens/HomeScreen';
 import SettingsScreen from './screens/SettingsScreen';
-import UserScreen from './screens/UserScreen';
 import MyJourneyScreen from './screens/MyJourneyScreen';
 import JournalScreen from './screens/JournalScreen';
 import ContactsScreen from './screens/ContactsScreen';
@@ -25,7 +24,6 @@ export default function App() {
         <Stack.Screen name="Contacts" component={ContactsScreen} />
         <Stack.Screen name="Appointments" component={AppointmentsScreen} />
         <Stack.Screen name="About Me" component={AboutMeScreen} />
-        <Stack.Screen name="User" component={UserScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
