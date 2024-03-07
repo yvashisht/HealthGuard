@@ -9,8 +9,12 @@ const HomeScreen = ({navigation}) => {
   const menuItems = [
     { title: "My Journey", navigateTo: "My Journey" },
     { title: "Journal", navigateTo: "Journal" },
+    { title: "View Journal Entries", navigateTo: "ViewJournalEntries" },
+    { title: "MoodLog", navigateTo: "MoodLog" },
     { title: "Contacts", navigateTo: "Contacts" },
-    { title: "Appointments", navigateTo: "Appointments" },
+    { title: "Relapse Form", navigateTo: "RelapseForm"},
+    { title: "Chat Screen", navigateTo: "ChatScreen"},
+    // { title: "Appointments", navigateTo: "Appointments" },
     { title: "About Me", navigateTo: "About Me" },
     { title: "Settings", navigateTo: "Settings" },
     // Add more menu items here
@@ -29,7 +33,7 @@ const HomeScreen = ({navigation}) => {
         <TouchableOpacity 
           key={index} 
           onPress={() => navigation.navigate(item.navigateTo)}
-          className='py-3 px-6 bg-blue-500 rounded-full my-3 w-48 items-center'>
+          className='py-3 px-6 bg-blue-500 rounded-full my-3 w-60 items-center'>
           <Text className='text-white text-lg font-bold'>{item.title}</Text>
         </TouchableOpacity>
       ))}
