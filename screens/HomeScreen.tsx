@@ -1,7 +1,7 @@
 // screens/HomeScreen.tsx
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import logoNoBg from '../assets/Logo-no-bg.png'; 
+import logoNoBg from '../assets/logo-no-bg.png'; 
 import { Button } from 'react-native';
 
 const HomeScreen = ({navigation}) => {
