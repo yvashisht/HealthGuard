@@ -27,7 +27,7 @@ const ChatScreen = () => {
         },
         {
           headers: {
-            'Authorization': `Bearer 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`, 
+            'Authorization': `Bearer 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`, 
           },
         },
       );
