@@ -1,70 +1,61 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, ScrollView, Text } from 'react-native';
-import axios from 'axios';
+import OpenAI from 'openai';
+import { OPENAI_API_KEY } from '@env';
+
+// Initialize the OpenAI client with your API key
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // Make sure your API key is correctly set up in your environment variables
+});
 
 const ChatScreen = () => {
-  const [inputText, setInputText] = useState('');
+  const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
 
-  const sendMessage = async () => {
-    if (!inputText.trim()) return;
-
-    const userMessage = {
-      id: new Date().getTime(),
-      text: inputText,
-      sender: 'user',
-    };
-
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
-
+  const handleInput = async () => {
     try {
-      const response = await axios.post(
-        'https://api.openai.com/v4/completions',
-        {
-          model: 'text-davinci-003', // Consider using the latest model
-          prompt: inputText,
-          max_tokens: 50,
-        },
-        {
-          headers: {
-            'Authorization': `Bearer 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`, 
-          },
-        },
-      );
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: input }],
+      });
 
-      const botResponse = response.data.choices[0].text.trim();
-      const botMessage = {
-        id: new Date().getTime() + 1,
-        text: botResponse,
-        sender: 'bot',
+      // Since 'data' property does not exist, access 'choices' directly from 'completion'
+      const aiMessageContent = completion.choices[0].message.content;
+
+      const newMessage = {
+        id: Date.now(),
+        text: aiMessageContent,
+        sender: 'ai'
       };
 
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      // Update messages state with user and AI messages
+      setMessages(prevMessages => [...prevMessages, { id: Date.now() - 1, text: input, sender: 'user' }, newMessage]);
+      setInput(''); // Clear input after message is sent
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error(error); // Handle any errors
     }
-
-    setInputText(''); 
   };
 
   return (
-    <View className="flex-1 p-5">
+    <View className="flex-1 p-4">
       <ScrollView className="flex-1 mb-4">
         {messages.map((message) => (
           <View key={message.id} className={`mb-2 ${message.sender === 'user' ? 'items-end' : 'items-start'}`}>
-            <Text className="text-base px-4 py-2 rounded-lg bg-blue-200">{message.text}</Text>
+            <Text className={`text-base px-4 py-2 rounded-lg ${message.sender === 'user' ? 'bg-blue-100' : 'bg-green-100'}`}>
+              {message.text}
+            </Text>
           </View>
         ))}
       </ScrollView>
       <View className="flex-row">
         <TextInput
-          className="flex-1 border border-gray-300 p-2 rounded-lg mr-2"
+          className="flex-1 border border-blue-600 p-2 rounded-lg mr-2"
           placeholder="Type a message..."
-          value={inputText}
-          onChangeText={setInputText}
+          value={input}
+          onChangeText={setInput}
           underlineColorAndroid="transparent"
         />
-        <Button title="Send" onPress={sendMessage} />
+        <Button title="Send" onPress={handleInput} />
       </View>
     </View>
   );
